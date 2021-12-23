@@ -18,6 +18,7 @@ services:
 
   nginx:
     restart: always
+    container_name: nginx
     build:
       context: ./nginx
     ports:
@@ -26,16 +27,13 @@ services:
       - node-network
 
   db:
-    image: mysql:5.7
-    command: --innodb-use-native-aio=0
+    build:
+      context: ./mysql
     container_name: db
     restart: always
     tty: true
     volumes:
-      - ./mysql:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=nodedb
-      - MYSQL_ROOT_PASSWORD=root
+      - ./mysql_data:/var/lib/mysql
     networks:
       - node-network
 
